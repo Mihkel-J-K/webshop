@@ -1,6 +1,8 @@
 package ee.Karu.webshop.service;
 
 import ee.Karu.webshop.model.input.OmnivaParcelMachine;
+import ee.Karu.webshop.model.input.SmartPostParcelMachine;
+import ee.Karu.webshop.model.output.ParcelMachines;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +17,34 @@ import java.util.stream.Collectors;
 @Service
 public class ParcelMachineService {
     String omnivaUrl = "https://www.omniva.ee/locations.json";
+    String smartpostUrl = "https://www.smartpost.ee/places.json";
 
     @Autowired
     RestTemplate restTemplate;
 
-    public List<OmnivaParcelMachine> getParcelMachines(String country) {
+    public ParcelMachines getParcelMachines(String country) {
+        ParcelMachines parcelMachines = new ParcelMachines(); // parem klõps -> refactor -> rename
+        parcelMachines.setOmnivaParcelMachines(fetchOmnivaParcelMachines(country));
+        if (country.equals("EE")) {
+            parcelMachines.setSmartpostParcelMachines(fetchSmartpostParcelMachines());
+        } else {
+            parcelMachines.setSmartpostParcelMachines(new ArrayList<>());
+        }
+        return parcelMachines;
+    }
+
+    public List<SmartPostParcelMachine> fetchSmartpostParcelMachines(){
+        ResponseEntity<SmartPostParcelMachine[]> response = restTemplate
+                .exchange(smartpostUrl, HttpMethod.GET, null,SmartPostParcelMachine[].class);
+
+        List<SmartPostParcelMachine> smartPostParcelMachines = new ArrayList<>();
+        if (response.getBody() != null) {
+            smartPostParcelMachines = Arrays.asList(response.getBody());
+            }
+        return smartPostParcelMachines;
+        }
+
+    public List<OmnivaParcelMachine> fetchOmnivaParcelMachines(String country) {
         ResponseEntity<OmnivaParcelMachine[]> response = restTemplate
                 .exchange(omnivaUrl, HttpMethod.GET, null,OmnivaParcelMachine[].class);
 
