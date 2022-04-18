@@ -19,12 +19,14 @@ public class ParcelMachineService {
     @Autowired
     RestTemplate restTemplate;
 
-    public List<OmnivaParcelMachine> getParcelMachines(String country){
-        ResponseEntity<OmnivaParcelMachine[]> response = restTemplate.exchange(omnivaUrl, HttpMethod.GET, null, OmnivaParcelMachine[].class);
+    public List<OmnivaParcelMachine> getParcelMachines(String country) {
+        ResponseEntity<OmnivaParcelMachine[]> response = restTemplate
+                .exchange(omnivaUrl, HttpMethod.GET, null,OmnivaParcelMachine[].class);
+
         List<OmnivaParcelMachine> omnivaParcelMachines = new ArrayList<>();
         if (response.getBody() != null) {
             omnivaParcelMachines = Arrays.asList(response.getBody());
-            omnivaParcelMachines.stream()
+            omnivaParcelMachines = omnivaParcelMachines.stream()
                     .filter(p -> p.getA0_NAME().equals(country))
                     .collect(Collectors.toList());
         }

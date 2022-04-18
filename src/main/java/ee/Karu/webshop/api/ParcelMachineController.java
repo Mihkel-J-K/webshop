@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 public class ParcelMachineController {
@@ -17,8 +18,8 @@ public class ParcelMachineController {
 
     @GetMapping("parcel-machines/{country}")
     public List<OmnivaParcelMachine> getParcelMachines(@PathVariable String country) {
+        country = country.toUpperCase();
         return parcelMachineService.getParcelMachines(country);
-
     }
 
 
