@@ -3,6 +3,7 @@ package ee.Karu.webshop.service;
 import ee.Karu.webshop.model.input.OmnivaParcelMachine;
 import ee.Karu.webshop.model.input.SmartPostParcelMachine;
 import ee.Karu.webshop.model.output.ParcelMachines;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 public class ParcelMachineService {
     String omnivaUrl = "https://www.omniva.ee/locations.json";
@@ -34,6 +36,7 @@ public class ParcelMachineService {
     }
 
     public List<SmartPostParcelMachine> fetchSmartpostParcelMachines(){
+        log.info("Taking Smart Post parcel machines");
         ResponseEntity<SmartPostParcelMachine[]> response = restTemplate
                 .exchange(smartpostUrl, HttpMethod.GET, null,SmartPostParcelMachine[].class);
 
@@ -45,6 +48,7 @@ public class ParcelMachineService {
         }
 
     public List<OmnivaParcelMachine> fetchOmnivaParcelMachines(String country) {
+        log.info("Taking Omniva parcel machines");
         ResponseEntity<OmnivaParcelMachine[]> response = restTemplate
                 .exchange(omnivaUrl, HttpMethod.GET, null,OmnivaParcelMachine[].class);
 
