@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "everypay.credentials",
+      "type": "java.lang.String",
+      "description": "Description for everypay.credentials."
+  }
+] }

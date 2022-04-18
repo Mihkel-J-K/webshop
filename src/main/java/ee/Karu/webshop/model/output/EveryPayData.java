@@ -2,9 +2,9 @@ package ee.Karu.webshop.model.output;
 
 import lombok.Data;
 
-@Data
+// https://www.site24x7.com/tools/json-to-java.html
+@Data // getterid & setterid & no args constructori
 public class EveryPayData {
-
     private String api_username;
     private String account_name;
     private double amount;

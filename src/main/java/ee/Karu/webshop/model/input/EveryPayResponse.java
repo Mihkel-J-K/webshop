@@ -12,8 +12,8 @@ public class EveryPayResponse {
     private String customer_ip;
     private String customer_url;
     private String payment_created_at;
-    private float initial_amount;
-    private float standing_amount;
+    private double initial_amount;
+    private double standing_amount;
     private String payment_reference;
     private String payment_link;
     ArrayList<PaymentMethod> payment_methods = new ArrayList<>();

@@ -5,48 +5,46 @@ import ee.Karu.webshop.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class ProductController {
-
     //List<Product> products = new ArrayList<>();
 
     @Autowired
     ProductRepository productRepository;
 
-    @GetMapping("get-products")
-    public List<Product> getProducts(){
+    @GetMapping("products") // localhost:8080/products
+    public List<Product> getProducts() {
         return productRepository.findAll();
     }
 
-    @GetMapping("get-products/{id}")
-    public Product getProduct(@PathVariable Long id){
+    @PostMapping("products")
+    public List<Product> addProduct(@RequestBody Product product) {
+        productRepository.save(product);
+        return productRepository.findAll();
+    }
+
+    @DeleteMapping("products/{id}")
+    public List<Product> deleteProduct(@PathVariable Long id) {
+        productRepository.deleteById(id);
+        return productRepository.findAll();
+    }
+
+    @GetMapping("products/{id}")
+    public Product getProduct(@PathVariable Long id) {
         return productRepository.findById(id).get();
     }
 
-    // POST
-
-
-    @PostMapping("add-product")
-    public void addProduct(@RequestBody Product product){
+    @PutMapping("products")
+    public List<Product> editProduct(@RequestBody Product product) {
         productRepository.save(product);
+        return productRepository.findAll();
     }
 
-    @PostMapping("edit-product")
-    public void editProduct(@RequestBody Product product){
-        productRepository.save(product);
-    }
-
-    @DeleteMapping("delete/{id})") // localhost:8080/delete/{id}
-    public void deleteProduct(@PathVariable Long id) {
-        productRepository.deleteById(id);
-    }
-
-    @DeleteMapping("deleteall") // localhost:8080/delete/{id}
-    public String deleteAll() {
+    @DeleteMapping("products")
+    public String deleteAllProduct() {
         productRepository.flush();
-        return "All products have been deleted.";
+        return "Kõik tooted kustutatud";
     }
 }

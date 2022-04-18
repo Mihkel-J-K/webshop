@@ -10,7 +10,6 @@ import java.util.List;
 public class ListController {
 
     public List<String> strings = new ArrayList<>(Arrays.asList("Yks", "Kaks", "Kolm"));
-    String[] strings2 = {"leet", "Code"};
 
     @GetMapping("get-strings") //localhost:8080/get-strings
     public List<String> getStrings() {
