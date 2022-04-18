@@ -1,7 +1,7 @@
 package ee.Karu.webshop.api;
 
 import ee.Karu.webshop.dao.ProductRepository;
-import ee.Karu.webshop.model.Product;
+import ee.Karu.webshop.model.database.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
