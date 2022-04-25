@@ -5,6 +5,7 @@ import ee.Karu.webshop.model.database.Product;
 import ee.Karu.webshop.service.OrderService;
 import ee.Karu.webshop.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ public class PaymentController {
     OrderService orderService;
 
     @PostMapping("payment")  // localhost:8080/payment    Body    80   text
-    public String getPaymentLink(@RequestBody List<Product> products) {
+    public ResponseEntity<String> getPaymentLink(@RequestBody List<Product> products) {
         // tooted -- nimedega + hindadega
         System.out.println(paymentService);
         // Maksma -- Tellmuse nr-t
@@ -34,7 +35,8 @@ public class PaymentController {
         List<Product> originalProducts = orderService.getAllProductsFromDb(products);
         double orderSum = orderService.calculateOrderSum(originalProducts);
         Long id = orderService.saveToDatabase(originalProducts, orderSum);
-        return paymentService.getPaymentLink(orderSum, id);
+        return ResponseEntity.ok()
+        .body(paymentService.getPaymentLink(orderSum, id));
     }
 
     @PostMapping("check-payment")
