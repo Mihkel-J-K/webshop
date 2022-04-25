@@ -9,20 +9,15 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-public class Product {
+public class Subcategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private double price;
-    private String imgSrc;
-    private boolean active;
-    private String description;
-    private int stock;
 
-    @OneToOne
-    private Subcategory category;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Category category;
 }

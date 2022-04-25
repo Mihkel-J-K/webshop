@@ -6,23 +6,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-public class Product {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private double price;
-    private String imgSrc;
-    private boolean active;
-    private String description;
-    private int stock;
 
-    @OneToOne
-    private Subcategory category;
+    @OneToMany
+    private List<Subcategory> subcategories;
 }

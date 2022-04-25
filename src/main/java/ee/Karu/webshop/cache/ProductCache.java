@@ -41,4 +41,8 @@ public class ProductCache {
         productLoadingCache.invalidateAll();
     }
 
+    public void updateCache(Product product) {
+        productLoadingCache.put(product.getId(), product);
+
+    }
 }
