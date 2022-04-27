@@ -1,8 +1,10 @@
 package ee.Karu.webshop.api;
 
+import ee.Karu.webshop.authentication.TokenGenerator;
 import ee.Karu.webshop.dao.PersonRepository;
 import ee.Karu.webshop.model.database.Person;
 import ee.Karu.webshop.model.input.LoginData;
+import ee.Karu.webshop.model.output.AuthData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +21,9 @@ public class AuthenticationController {
     @Autowired
     BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    TokenGenerator tokenGenerator;
+
     @PostMapping("signup")
     public ResponseEntity<Boolean> signup(@RequestBody Person person) {
 //        person.setPassword(); hashing
@@ -30,9 +35,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<Boolean> login(@RequestBody LoginData loginData) {
+    public ResponseEntity<AuthData> login(@RequestBody LoginData loginData) {
 //        person.setPassword();
-
-        return ResponseEntity.ok().body(true);
+        Person person = personRepository.getByEmail(loginData.getEmail());
+        boolean matches = passwordEncoder.matches(loginData.getPassword(), person.getPassword());
+        if (matches) {
+            AuthData authData = tokenGenerator.createAuthToken(loginData.getEmail());
+            return ResponseEntity.ok().body(authData);
+        }
+        return ResponseEntity.badRequest().body(null);
     }
 }
