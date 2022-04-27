@@ -8,4 +8,8 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> getAllByOrderByIdAsc();
+
+    List<Product> getAllByStockGreaterThanOrderByIdAsc(int stock);
+
+    List<Product> getAllByStockGreaterThanAndActiveEqualsOrderByIdAsc(int stock, boolean active);
 }

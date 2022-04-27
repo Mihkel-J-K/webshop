@@ -88,4 +88,16 @@ public class ProductController {
         return ResponseEntity.ok()
                 .body(productRepository.getAllByOrderByIdAsc());
     }
+
+    @GetMapping("positive-stock-products") // localhost:8080/products
+    public ResponseEntity<List<Product>>  getPositiveStockProducts() {
+        return ResponseEntity.ok().body(productRepository
+                .getAllByStockGreaterThanOrderByIdAsc(0));
+    }
+
+    @GetMapping("active-products") // localhost:8080/products
+    public ResponseEntity<List<Product>> getActiveProducts() {
+        return ResponseEntity.ok().body(productRepository
+                .getAllByStockGreaterThanAndActiveEqualsOrderByIdAsc(0, true));
+    }
 }
