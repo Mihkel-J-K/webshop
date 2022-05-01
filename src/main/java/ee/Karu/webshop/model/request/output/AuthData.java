@@ -1,4 +1,4 @@
-package ee.Karu.webshop.model.output;
+package ee.Karu.webshop.model.request.output;
 
 import lombok.Data;
 

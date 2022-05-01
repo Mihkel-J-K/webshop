@@ -1,7 +1,7 @@
-package ee.Karu.webshop.model.output;
+package ee.Karu.webshop.model.request.output;
 
-import ee.Karu.webshop.model.input.OmnivaParcelMachine;
-import ee.Karu.webshop.model.input.SmartPostParcelMachine;
+import ee.Karu.webshop.model.request.input.OmnivaParcelMachine;
+import ee.Karu.webshop.model.request.input.SmartPostParcelMachine;
 import lombok.Data;
 
 import java.util.List;

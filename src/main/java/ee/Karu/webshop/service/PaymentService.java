@@ -1,7 +1,7 @@
 package ee.Karu.webshop.service;
 
-import ee.Karu.webshop.model.input.EveryPayResponse;
-import ee.Karu.webshop.model.output.EveryPayData;
+import ee.Karu.webshop.model.request.input.EveryPayResponse;
+import ee.Karu.webshop.model.request.output.EveryPayData;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

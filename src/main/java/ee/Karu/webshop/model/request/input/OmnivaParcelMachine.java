@@ -1,4 +1,4 @@
-package ee.Karu.webshop.model.input;
+package ee.Karu.webshop.model.request.input;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

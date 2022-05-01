@@ -1,8 +1,8 @@
 package ee.Karu.webshop.service;
 
-import ee.Karu.webshop.model.input.OmnivaParcelMachine;
-import ee.Karu.webshop.model.input.SmartPostParcelMachine;
-import ee.Karu.webshop.model.output.ParcelMachines;
+import ee.Karu.webshop.model.request.input.OmnivaParcelMachine;
+import ee.Karu.webshop.model.request.input.SmartPostParcelMachine;
+import ee.Karu.webshop.model.request.output.ParcelMachines;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
