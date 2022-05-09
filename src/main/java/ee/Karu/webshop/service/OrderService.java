@@ -4,6 +4,7 @@ import ee.Karu.webshop.cache.ProductCache;
 import ee.Karu.webshop.dao.OrderRepository;
 import ee.Karu.webshop.dao.ProductRepository;
 import ee.Karu.webshop.model.database.Order;
+import ee.Karu.webshop.model.database.PaymentState;
 import ee.Karu.webshop.model.database.Product;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,28 +29,34 @@ public class OrderService {
 
     public double calculateOrderSum(List<Product> products) {
         return products.stream()
-                .mapToDouble(Product::getPrice) // map (asendab) k6ik tooted hinnaga (double kujul) | mapToDouble(p -> p.getPrice()) on sama
+                .mapToDouble(Product::getPrice) // map (asendab) kõik tooted hinnaga (double kujul)
                 .sum();
 
-
-        /*
-        double sum = 0;
-        for ( Product p: products) {
-            sum += p.getPrice();               Sama asi mis stream
-        }
-        return sum;
-         */
+//            double sum = 0;
+//            for (Product p: products) {
+//                sum += p.getPrice();
+//            }
+//            return sum;
     }
 
     public Long saveToDatabase(List<Product> products, double orderSum) {
         Order order = new Order();
         order.setOrderSum(orderSum);
         order.setProducts(products);
+        order.setPaymentState(PaymentState.INITIAL);
         Order savedOrder = orderRepository.save(order);
         return savedOrder.getId();
     }
 
     public List<Product> getAllProductsFromDb(List<Product> products) {
+//        List<Product> originalProducts = new ArrayList<>();
+//        for (Product p: products) {
+//            Long productId = p.getId();
+//            Product originalProduct = productRepository.findById(productId).get();
+//            originalProducts.add(originalProduct);
+//        }
+//        return originalProducts;
+
         return products.stream()
                 .map(p -> {
                     try {

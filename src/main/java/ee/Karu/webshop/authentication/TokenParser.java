@@ -15,10 +15,19 @@ import java.io.IOException;
 
 @Log4j2
 public class TokenParser extends BasicAuthenticationFilter {
+    // @Value ei saa
+    private String key;
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public TokenParser(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
+
+    // Basic - username + password
+    // Bearer - token, mille sees on mitmeid väärtusi
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -28,7 +37,7 @@ public class TokenParser extends BasicAuthenticationFilter {
             token = token.replace("Bearer ", "");
 
             Claims claims = Jwts.parser()
-                    .setSigningKey("super-secret-key")
+                    .setSigningKey(key)
                     .parseClaimsJws(token)
                     .getBody();
 

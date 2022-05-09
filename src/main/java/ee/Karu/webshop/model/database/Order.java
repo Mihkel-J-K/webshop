@@ -17,11 +17,17 @@ import java.util.List;
 @SequenceGenerator(name = "seq", initialValue = 3214123, allocationSize = 1)
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="orderSeq")
     private Long id;
     private double orderSum;
+    private PaymentState paymentState;
 
     @ManyToMany
     private List<Product> products;
 
+    //              @OneToMany
+    // Location    List<TimeSlot>   ÜKS TimeSlot on ainult ÜHES ASUKOHTAS
+
+    //              @ManyToOne
+    // TimeSlot     Location
 }
