@@ -4,6 +4,7 @@ import ee.Karu.webshop.cache.ProductCache;
 import ee.Karu.webshop.dao.ProductRepository;
 import ee.Karu.webshop.model.database.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProductController {
     //List<Product> products = new ArrayList<>();
 
@@ -22,8 +24,8 @@ public class ProductController {
     ProductCache productCache;
 
     @GetMapping("products") // localhost:8080/products
-    public ResponseEntity<List<Product>> getProducts() {
-        return ResponseEntity.status(HttpStatus.CREATED)
+    public ResponseEntity<List<Product>>  getProducts() {
+        return ResponseEntity.ok()
                 .body(productRepository.getAllByOrderByIdAsc());
     }
 
@@ -44,9 +46,10 @@ public class ProductController {
 
     @GetMapping("products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable Long id) throws ExecutionException {
-        return  ResponseEntity.ok()
+        return ResponseEntity.ok()
                 .body(productCache.getProduct(id));
-        //return productRepository.findById(id).get();
+//        return productCache.getProduct(id);
+//        return productRepository.findById(id).get();
     }
 
     @PutMapping("products")
@@ -57,7 +60,7 @@ public class ProductController {
                 .body(productRepository.getAllByOrderByIdAsc());
     }
 
-    @DeleteMapping("products")
+    @DeleteMapping("delete-all-products")
     public ResponseEntity<String> deleteAllProduct() {
         productRepository.flush();
         productCache.emptyCache();
@@ -81,10 +84,13 @@ public class ProductController {
     public ResponseEntity<List<Product>> decreaseStock(@RequestBody Product product) throws ExecutionException {
         Product updatedProduct = productCache.getProduct(product.getId());
         int productStock = updatedProduct.getStock();
-        updatedProduct.setStock(--productStock);
-        productRepository.save(updatedProduct);
-        productCache.updateCache(updatedProduct);
+        // TODO: ERRORi kuvamine
+        if (productStock > 0) {
+            updatedProduct.setStock(--productStock);
+            productRepository.save(updatedProduct);
+            productCache.updateCache(updatedProduct);
 //        productCache.emptyCache();
+        }
         return ResponseEntity.ok()
                 .body(productRepository.getAllByOrderByIdAsc());
     }

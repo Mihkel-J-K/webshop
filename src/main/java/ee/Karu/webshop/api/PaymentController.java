@@ -6,9 +6,7 @@ import ee.Karu.webshop.service.OrderService;
 import ee.Karu.webshop.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,22 +24,22 @@ public class PaymentController {
 
     @PostMapping("payment")  // localhost:8080/payment    Body    80   text
     public ResponseEntity<String> getPaymentLink(@RequestBody List<Product> products) {
-        // tooted -- nimedega + hindadega
-        System.out.println(paymentService);
-        // Maksma -- Tellmuse nr-t
+        // Tooted --- nimedega+hindadega
+        // Maksma --- Tellimuse nr-t
         // Salvestan andmebaasi -> maksmata kujul
-        // V6ta andmebaasist tema ID (mis on genereeritud)
-        // --> l'heb maksma
+        // Võtan andmebaasist tema ID (mis on genereeritud)
+        // ---> Lähen maksma
         List<Product> originalProducts = orderService.getAllProductsFromDb(products);
         double orderSum = orderService.calculateOrderSum(originalProducts);
         Long id = orderService.saveToDatabase(originalProducts, orderSum);
-        return ResponseEntity.ok()
-        .body(paymentService.getPaymentLink(orderSum, id));
+        return ResponseEntity.ok().body(paymentService.getPaymentLink(orderSum, id));
     }
 
+    // order_reference=5413137&payment_reference=d26ba3ef85e607e4131f552b4977441c4c865427497f6183adbde78b6ccc68a2
+    // order_reference=5413138&payment_reference=5d9f591cd34f68da654fa8bdd3ad9550de094e41050a28fe74c66143181a55bf
     @PostMapping("check-payment")
-    public boolean checkIfPaid() {
+    public ResponseEntity<Boolean> checkIfPaid(@RequestParam Long orderId, @RequestParam String paymentRef) {
         // Kui on makstud, muudan andmebaasis makstuks
-        return true;
+        return ResponseEntity.ok().body(paymentService.checkIfOrderPaid(orderId, paymentRef));
     }
 }
