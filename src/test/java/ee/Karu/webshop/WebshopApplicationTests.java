@@ -2,7 +2,7 @@ package ee.Karu.webshop;
 
 import ee.Karu.webshop.model.database.Product;
 import ee.Karu.webshop.model.database.Subcategory;
-import ee.Karu.webshop.dao.ProductRepository;
+import ee.Karu.webshop.repository.ProductRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

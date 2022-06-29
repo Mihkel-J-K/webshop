@@ -1,11 +1,13 @@
 package ee.Karu.webshop.model.database;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -18,6 +20,8 @@ public class Subcategory {
     private Long id;
     private String name;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @JsonBackReference
+    @ManyToOne()
+    @NotNull
     private Category category;
 }

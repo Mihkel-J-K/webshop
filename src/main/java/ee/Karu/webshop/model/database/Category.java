@@ -1,5 +1,6 @@
 package ee.Karu.webshop.model.database;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Category {
     @Id
@@ -19,6 +20,7 @@ public class Category {
     private Long id;
     private String name;
 
-    @OneToMany
+    @JsonManagedReference
+    @OneToMany(mappedBy = "category", cascade = CascadeType.MERGE)
     private List<Subcategory> subcategories;
 }

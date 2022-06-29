@@ -1,5 +1,6 @@
 package ee.Karu.webshop.authentication;
 
+import ee.Karu.webshop.model.database.Person;
 import ee.Karu.webshop.model.request.output.AuthData;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -15,16 +16,16 @@ public class TokenGenerator {
     @Value("${token.key}")
     private String key;
 
-    public AuthData createAuthToken(String email) {
+    public AuthData createAuthToken(Person person) {
         AuthData authData = new AuthData();
         Date newDate = DateUtils.addHours(new Date(), 5);
 
         String token = Jwts.builder()
-                .signWith(SignatureAlgorithm.ES512, key)
-                .setIssuer("webshop")
-                .setSubject(email)
-                .setExpiration(newDate)
-                .compact();
+            .signWith(SignatureAlgorithm.HS512, key)
+            .setIssuer(person.getRole())
+            .setSubject(person.getEmail())
+            .setExpiration(newDate)
+            .compact();
 
         authData.setToken(token);
         authData.setExpiration(newDate);
